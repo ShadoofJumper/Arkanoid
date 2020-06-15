@@ -30,6 +30,7 @@ public class MainManager : MonoBehaviour
     public SceneController  SceneController     => sceneController;
     public GameManager      GameManager         => gameManager;
     public PlayerController PlayerController    => playerController;
+    public UIManager        UIManager           => uIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -41,16 +42,6 @@ public class MainManager : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void StartGame()
-    {
-
-    }
-
-    public void RestartGame()
-    {
-
     }
 
 }

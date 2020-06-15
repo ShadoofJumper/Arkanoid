@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveBodyHorizontal : MonoBehaviour
 {
     [SerializeField] private Rigidbody targetRg;
-    [Range(0.0f, 1.0f)]
+    [Range(0.0f, 5.0f)]
     [SerializeField] private float  moveRange;
     [SerializeField] private float  speed    = 1.0f;
     [SerializeField] private bool   startMoveRight = true;

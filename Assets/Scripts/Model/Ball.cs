@@ -7,6 +7,8 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] private float  speed;
     [SerializeField] private int    damage;
+    [SerializeField] private GameObject particleTrail;
+
     private Vector3         currentVelocity;
     private bool            isMove;
     private Material        material;
@@ -35,6 +37,14 @@ public class Ball : MonoBehaviour
     {
         currentVelocity = Vector3.up + startVelocity;
         isMove = true;
+        particleTrail.SetActive(true);
+    }
+
+    public void StopMove()
+    {
+        currentVelocity = Vector3.zero;
+        isMove = false;
+        particleTrail.SetActive(false);
     }
 
     private void Move()
@@ -48,6 +58,9 @@ public class Ball : MonoBehaviour
     // ------------ collide logic ----------
     private void OnCollisionEnter(Collision collision)
     {
+        if (CheckFailZone(collision))
+            MainManager.inst.GameManager.MissBall();
+
         //change ball move direction
         ChangeDirection(collision);
         //try hit block
@@ -57,6 +70,11 @@ public class Ball : MonoBehaviour
             HitBlock(block);
         }
     }
+    private bool CheckFailZone(Collision collision)
+    {
+        return collision.collider.tag == "FailZone";
+    }
+
 
     private void HitBlock(Block block)
     {
@@ -99,13 +117,11 @@ public class Ball : MonoBehaviour
         if (turnOn)
         {
             speed               = startSpeed * 0.4f;
-            collider.enabled    = false;
             material.color      = ghostColor;
         }
         else
         {
             speed               = startSpeed;
-            collider.enabled    = true;
             material.color      = standartColor;
         }
     }

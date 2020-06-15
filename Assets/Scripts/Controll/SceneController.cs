@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class SceneController : MonoBehaviour
 {
-    [SerializeField] private float screenWidth = 8.0f;
-    [SerializeField] private List<Transform>        blockSpots;
-    [SerializeField] private List<BlockSettings>    blockSettings;
-    [SerializeField] private Ball                   ball;
-    [SerializeField] private GameObject             emptyBlock;
+    [SerializeField] private float screenWidth          = 8.0f;
+    [SerializeField] private float screenBottomRedLine  = 3.0f;
+    [SerializeField] private List<Transform>    blockSpots;
+    [SerializeField] private Transform          blockFolder;
+    [SerializeField] private List<GameObject>   blockPrefabs;
+    [SerializeField] private List<Color>        blockColors;
+    [SerializeField] private Color              invincibleBlockColor;
+    [SerializeField] private Ball               ball;
+    private int destroyebleBlockSpawned;
 
     public float SCREEN_WIDTH   => screenWidth;
     public Ball Ball            => ball;
@@ -16,7 +20,7 @@ public class SceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SpawnRandomBlocks();
     }
 
     // Update is called once per frame
@@ -25,33 +29,51 @@ public class SceneController : MonoBehaviour
         
     }
 
+    // --------------- spawn blocks logic ---------------
     private void SpawnRandomBlocks()
     {
         foreach (Transform spot in blockSpots)
         {
-            int randomBlockId = Random.Range(0, blockSettings.Count);
-            BlockSettings randomBlockSetting = blockSettings[randomBlockId];
+            int randomBlockId = Random.Range(0, blockPrefabs.Count);
+            GameObject randomBlockObject = blockPrefabs[randomBlockId];
+            SpawnBlock(randomBlockObject, spot.position);
         }
+        MainManager.inst.GameManager.CurrentBlockLive = destroyebleBlockSpawned;
     }
 
-    private void SpawnBlock(BlockSettings blockSetting)
+    private void SpawnBlock(GameObject blockObjectOrigin, Vector3 position)
     {
-        GameObject block = Instantiate(emptyBlock);
-
-        switch (blockSetting.BlockType)
-        {
-            case BlockTypes.Invencible:
-                //CreateBlockInvencible(block);
-                break;
-            case BlockTypes.GhostEffect:
-                //CreateGhostBlock(block);
-                break;
-            case BlockTypes.PotionDrop:
-                //CreatePotionBlock(block);
-                break;
-        }
+        GameObject blockObject          = Instantiate(blockObjectOrigin, blockFolder);
+        Block block                     = blockObject.GetComponent<Block>();
+        bool isDestroyable              = CheckBlockDestroyable(block);
+        blockObject.transform.position  = position;
+        SetBlockRandomColor(block, isDestroyable);
+        if (isDestroyable)
+            destroyebleBlockSpawned += 1;
     }
 
+    private void SetBlockRandomColor(Block block, bool isDestroyable)
+    {
+        Color randomColor;
+        //check is block invincible
+        if (!isDestroyable)
+        {
+            randomColor = invincibleBlockColor;
+        }
+        else
+        {
+            int randomColorId = Random.Range(0, blockColors.Count);
+            randomColor = blockColors[randomColorId];
+        }
+        block.SetColor(randomColor);
+    }
+
+    private bool CheckBlockDestroyable(Block block)
+    {
+        return block as DestroyedBlock == null ? false : true;
+    }
+
+    // ------------------------------------------------------
 
 
     // create gizmo for interacteble object
@@ -60,7 +82,7 @@ public class SceneController : MonoBehaviour
         Gizmos.color = Color.green;
         foreach (Transform spot in blockSpots)
         {
-            Gizmos.DrawWireSphere(spot.position, 0.3f);
+            Gizmos.DrawWireSphere(spot.position, 0.55f);
         }
     }
 }

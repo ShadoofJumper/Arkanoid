@@ -51,6 +51,7 @@ public class Potion : MonoBehaviour
 
     private void AddBonus()
     {
+        Debug.Log($"Add bonus: {bonusCoins}, {bonusLives}");
         if(bonusCoins!=0)
             MainManager.inst.GameManager.AddCoin(bonusCoins);
         if(bonusLives != 0)

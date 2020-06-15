@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 7294509492107278916}
   - component: {fileID: 7294509492107278919}
   - component: {fileID: 7294509492107278937}
+  - component: {fileID: 6935318992127569517}
   m_Layer: 0
-  m_Name: BlockPotion
+  m_Name: BlockPotionCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7294509492107278939}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -122,8 +123,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ff0077fcd74de458ec48d4426af79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0.990566, g: 0.28502133, b: 0.28502133, a: 0}
-  health: 1
-  potionSettings: {fileID: 11400000, guid: 7f00ecf6a264d384d84c53f804690e99, type: 2}
+  color: {r: 0.24313726, g: 1, b: 0, a: 0}
+  health: 3
+  blockAnimator: {fileID: 6935318992127569517}
+  blockCollider: {fileID: 7294509492107278919}
+  potionSettings: {fileID: 11400000, guid: 9181511ff1f524a4ca71c6b52f1793fa, type: 2}
   potionPrefab: {fileID: 8904427955187051098, guid: 1daf226fd7e7ed044b24c44a72f7f8b5,
     type: 3}
+--- !u!95 &6935318992127569517
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7294509492107278939}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 65dad46ff095491438e92531d0309bfa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

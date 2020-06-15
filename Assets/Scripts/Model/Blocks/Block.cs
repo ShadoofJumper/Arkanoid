@@ -9,11 +9,17 @@ public class Block : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetColor();
+        SetColor(color);
     }
 
-    protected void SetColor()
+    public void SetColor()
     {
+        GetComponent<MeshRenderer>().material.color = this.color;
+    }
+
+    public void SetColor(Color color)
+    {
+        this.color = color;
         GetComponent<MeshRenderer>().material.color = color;
     }
 }
